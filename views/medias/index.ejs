@@ -1,0 +1,39 @@
+<% layout('layouts/boilerplate') %>
+
+    <body>
+        <h1>List of movies</h1>
+        <div>
+            <a href="/movies/new">Add a new movie</a>
+        </div>
+        <ul>
+            <% for(let movie of movies){ %>
+                <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="..." class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/movies/<%=movie._id%>">
+                                        <%=movie.title%>
+                                    </a>
+                                </h5>
+                                <p class="card-text">
+                                    <%= movie.genre %>
+                                </p>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        <%= movie.release %>
+                                    </small>
+                                </p>
+                                <a href="movies/<%= movie._id %>" class="btn btn-primary">View
+                                    <%= movie.title %>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+        </ul>
+    </body>
