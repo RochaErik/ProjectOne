@@ -11,7 +11,7 @@ const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 const userRoutes = require('./routes/Users');
 const reviewsRoutes = require('./routes/Reviews');
-const moviesRoutes = require('./routes/Movies')
+const imagesRoutes = require('./routes/Images')
 
 mongoose.connect('mongodb://localhost:27017/projectOne');
 
@@ -64,10 +64,10 @@ app.use((req, res, next) => {
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
-//Ligação do app.js com o ./routes/movies.js
+//Ligação do app.js com o ./routes/images.js
 app.use('/', userRoutes);
-app.use('/movies', moviesRoutes);
-app.use('/movies/:id/review', reviewsRoutes);
+app.use('/images', imagesRoutes);
+app.use('/images/:id/review', reviewsRoutes);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {

@@ -1,6 +1,6 @@
-const { movieSchema, reviewSchema } = require('./schemas');
+const { imageSchema, reviewSchema } = require('./schemas');
 const ExpressError = require('./utils/expressError');
-const Movie = require('./models/medias');
+const Image = require('./models/medias');
 const Review = require('./models/review');
 
 
@@ -13,8 +13,8 @@ module.exports.isLoggedIn = (req, res, next) => {
     next();
 };
 
-module.exports.validateMovie = (req, res, next) => {
-    const { error } = movieSchema.validate(req.body);
+module.exports.validateImage = (req, res, next) => {
+    const { error } = imageSchema.validate(req.body);
     if (error) {
         const msg = error.details.map(el => el.message).join(',')
         throw new ExpressError(msg, 400);
@@ -25,10 +25,10 @@ module.exports.validateMovie = (req, res, next) => {
 
 module.exports.isAuthor = async (req, res, next) => {
     const { id } = req.params;
-    const movie = await Movie.findById(id);
-    if (!movie.author.equals(req.user._id)) {
+    const image = await Image.findById(id);
+    if (!image.author.equals(req.user._id)) {
         req.flash('error', 'You do not have permission to do that');
-        return res.redirect(`/movies/${id}`);
+        return res.redirect(`/images/${id}`);
     }
     next();
 };
@@ -48,7 +48,7 @@ module.exports.isReviewAuthor = async (req, res, next) => {
     const review = await Review.findById(reviewId);
     if (!review.author.equals(req.user._id)) {
         req.flash('error', 'You do not have permission to do that');
-        return res.redirect(`/movies/${id}`);
+        return res.redirect(`/images/${id}`);
     }
     next();
 };

@@ -1,12 +1,10 @@
 const Joi = require('joi');
 
-module.exports.movieSchema = Joi.object({
+module.exports.imageSchema = Joi.object({
     movie: Joi.object({
         title: Joi.string().required(),
-        release: Joi.date().required(),
-        genre: Joi.string().required(),
-        director: Joi.string().required(),
-        runtime: Joi.number().required()
+        property: Joi.string().required(),
+        description: Joi.string().required(),
     }).required()
 });
 
