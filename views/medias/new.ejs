@@ -1,20 +1,18 @@
 <% layout('layouts/boilerplate') %>
     <div class="row">
-        <h1 class="text-center">Insert a image</h1>
+        <h1 class="text-center">New image</h1>
         <div class="col-6 offset-3">
             <form action="/images" method="POST" class='validated-form' novalidate>
                 <div class="mb-3">
                     <label class="form-label" for="title">Image Title</label>
-                    <input class="form-control" type="text" name="image[title]" id="title" value="<%= image.title %>"
-                        required>
+                    <input class="form-control" type="text" name="image[title]" id="title" required>
                     <div class="valid-feedback">
                         Valid input
                     </div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="property">Property of</label>
-                    <input class="form-control" type="text" name="image[property]" id="property"
-                        value="<%= image.property %>" required>
+                    <input class="form-control" type="text" name="image[property]" id="property" required>
                     <div class="valid-feedback">
                         Valid input
                     </div>
@@ -22,7 +20,7 @@
                 <div class="mb-3">
                     <label class="form-label" for="description">Description</label>
                     <input class="form-control" type="text" size="30" name="image[description]" id="description"
-                        value="<%= image.description %>" required>
+                        required>
                     <div class="valid-feedback">
                         Valid input
                     </div>

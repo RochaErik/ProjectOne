@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 module.exports.imageSchema = Joi.object({
-    movie: Joi.object({
+    image: Joi.object({
         title: Joi.string().required(),
         property: Joi.string().required(),
         description: Joi.string().required(),
