@@ -2,12 +2,10 @@ const mongoose = require('mongoose');
 const Review = require('./review');
 const Schema = mongoose.Schema;
 
-const MovieSchema = new Schema({
+const ImageSchema = new Schema({
     title: String,
-    release: Date,
-    genre: String,
-    director: String,
-    runtime: Number,
+    published: Date,
+    tags: String,
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User'
@@ -21,7 +19,7 @@ const MovieSchema = new Schema({
 });
 
 //Comandos necessários para deletar os reviews associados a cada campground
-MovieSchema.post('findOneAndDelete', async function (doc) {
+ImageSchema.post('findOneAndDelete', async function (doc) {
     if (doc) {
         await Review.deleteMany({
             _id: {
@@ -31,4 +29,4 @@ MovieSchema.post('findOneAndDelete', async function (doc) {
     }
 });
 
-module.exports = mongoose.model('Movie', MovieSchema);
+module.exports = mongoose.model('Image', ImageSchema);
