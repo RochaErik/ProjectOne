@@ -1,52 +1,36 @@
 <% layout('layouts/boilerplate') %>
     <div class="row">
-        <h1 class="text-center">Edit movie</h1>
+        <h1 class="text-center">Edit image</h1>
         <div class="col-6 offset-3">
-            <form action="/movies/<%=movie._id%>?_method=PUT" method="POST" class='validated-form' novalidate>
+            <form action="/images/<%=image._id%>?_method=PUT" method="POST" class='validated-form' novalidate>
                 <div class="mb-3">
-                    <label class="form-label" for="title">Movie Title</label>
-                    <input class="form-control" type="text" name="movie[title]" id="title" value="<%= movie.title %>"
+                    <label class="form-label" for="title">Image Title</label>
+                    <input class="form-control" type="text" name="image[title]" id="title" value="<%= image.title %>"
                         required>
                     <div class="valid-feedback">
                         Valid input
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="release">Release Date</label>
-                    <input class="form-control" type="month" name="movie[release]" id="release"
-                        value="<%= movie.release %>" required>
+                    <label class="form-label" for="property">Property of</label>
+                    <input class="form-control" type="text" name="image[property]" id="property"
+                        value="<%= image.property %>" required>
                     <div class="valid-feedback">
                         Valid input
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="genre">Movie Genre</label>
-                    <input class="form-control" type="text" name="movie[genre]" id="genre" value="<%= movie.genre %>"
-                        required>
+                    <label class="form-label" for="description">Description</label>
+                    <input class="form-control" type="text" size="30" name="image[description]" id="description"
+                        value="<%= image.description %>" required>
                     <div class="valid-feedback">
                         Valid input
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="director">Director's Name</label>
-                    <input class="form-control" type="text" name="movie[director]" id="director"
-                        value="<%= movie.director %>" required>
-                    <div class="valid-feedback">
-                        Valid input
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label" for="runtime">Runtime</label>
-                    <input class="form-control" type="text" name="movie[runtime]" id="runtime"
-                        value="<%= movie.runtime %>" required>
-                    <div class="valid-feedback">
-                        Valid input
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <button class="btn btn-success">Edit Movie</button>
+                    <button class="btn btn-success">Edit Image</button>
                 </div>
             </form>
-            <a href="/movies">All movies</a>
+            <a href="/images">All images</a>
         </div>
     </div>

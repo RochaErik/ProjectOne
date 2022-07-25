@@ -1,12 +1,12 @@
 <% layout('layouts/boilerplate') %>
 
     <body>
-        <h1>List of movies</h1>
+        <h1>List of images</h1>
         <div>
-            <a href="/movies/new">Add a new movie</a>
+            <a href="/images/new">Add a new image</a>
         </div>
         <ul>
-            <% for(let movie of movies){ %>
+            <% for(let image of images){ %>
                 <div class="card mb-3" style="max-width: 540px;">
                     <div class="row g-0">
                         <div class="col-md-4">
@@ -15,20 +15,15 @@
                         <div class="col-md-8">
                             <div class="card-body">
                                 <h5 class="card-title">
-                                    <a href="/movies/<%=movie._id%>">
-                                        <%=movie.title%>
+                                    <a href="/images/<%=image._id%>">
+                                        <%=image.title%>
                                     </a>
                                 </h5>
                                 <p class="card-text">
-                                    <%= movie.genre %>
+                                    <%= image.property %>
                                 </p>
-                                <p class="card-text">
-                                    <small class="text-muted">
-                                        <%= movie.release %>
-                                    </small>
-                                </p>
-                                <a href="movies/<%= movie._id %>" class="btn btn-primary">View
-                                    <%= movie.title %>
+                                <a href="images/<%= image._id %>" class="btn btn-primary">View
+                                    <%= image.title %>
                                 </a>
                             </div>
                         </div>
