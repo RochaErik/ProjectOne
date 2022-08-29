@@ -3,10 +3,13 @@ const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
 const { isLoggedIn, validateImage, isAuthor } = require('../middleware');
 const images = require('../controllers/images');
+const multer = require('multer')
+const upload = multer({ dest: 'uploads/' });
 
 router.route('/')
     .get(catchAsync(images.index))
     .post(isLoggedIn, validateImage, catchAsync(images.createImage));
+
 
 router.get('/new', isLoggedIn, images.renderNewForm);
 

@@ -2,7 +2,7 @@
     <div class="row">
         <h1 class="text-center">New image</h1>
         <div class="col-6 offset-3">
-            <form action="/images" method="POST" class='validated-form' novalidate>
+            <form action="/images" method="POST" class='validated-form' enctype="multipart/form-data" novalidate>
                 <div class="mb-3">
                     <label class="form-label" for="title">Image Title</label>
                     <input class="form-control" type="text" name="image[title]" id="title" required>
@@ -24,6 +24,9 @@
                     <div class="valid-feedback">
                         Valid input
                     </div>
+                </div>
+                <div class="mb-3">
+                    <input type="file" name="image" multiple>
                 </div>
                 <div class="mb-3">
                     <button class="btn btn-success">Add Image</button>
