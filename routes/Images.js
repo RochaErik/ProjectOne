@@ -9,8 +9,7 @@ const upload = multer({ storage });
 
 router.route('/')
     .get(catchAsync(images.index))
-    // .post(isLoggedIn, validateImage, catchAsync(images.createImage));
-    .post(upload.array('image'))
+    .post(isLoggedIn, upload.array('image'), validateImage, catchAsync(images.createImage));
 
 router.get('/new', isLoggedIn, images.renderNewForm);
 

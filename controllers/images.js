@@ -10,11 +10,12 @@ module.exports.renderNewForm = (req, res) => {
 };
 
 module.exports.createImage = async (req, res) => {
-    const images = new Image(req.body.image);
-    images.author = req.user._id;
-    await images.save();
+    const image = new Image(req.body.image);
+    image.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
+    image.author = req.user._id;
+    await image.save();
     req.flash('success', 'Successfully added a new image!');
-    res.redirect('/images');
+    res.redirect(`/images/${image._id}`);
 };
 
 module.exports.showImage = async (req, res) => {

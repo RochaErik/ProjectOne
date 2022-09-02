@@ -6,6 +6,12 @@ const ImageSchema = new Schema({
     title: String,
     property: String,
     description: String,
+    images: [
+        {
+            url: String,
+            filename: String
+        }
+    ],
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User'

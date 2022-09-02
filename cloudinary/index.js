@@ -13,7 +13,6 @@ const storage = new CloudinaryStorage({
         folder: 'ProjectOne',
         allowedFormats: ['jpeg', 'png', 'jpg']
     }
-
 });
 
 module.exports = {
