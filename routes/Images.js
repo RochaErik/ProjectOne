@@ -3,8 +3,8 @@ const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
 const { isLoggedIn, validateImage, isAuthor } = require('../middleware');
 const images = require('../controllers/images');
-const { storage } = require('../cloudinary');
 const multer = require('multer');
+const { storage } = require('../cloudinary');
 const upload = multer({ storage });
 
 router.route('/')
@@ -15,7 +15,7 @@ router.get('/new', isLoggedIn, images.renderNewForm);
 
 router.route('/:id')
     .get(catchAsync(images.showImage))
-    .put(isLoggedIn, isAuthor, validateImage, catchAsync(images.updateImage))
+    .put(isLoggedIn, isAuthor, upload.array('image'), validateImage, catchAsync(images.updateImage))
     .delete(isLoggedIn, isAuthor, catchAsync(images.deleteImage));
 
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(images.renderEditForm));

@@ -45,6 +45,9 @@ module.exports.renderEditForm = async (req, res) => {
 module.exports.updateImage = async (req, res) => {
     const { id } = req.params;
     const image = await Image.findByIdAndUpdate(id, { ...req.body.image });
+    const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
+    image.images.push(...imgs);
+    await image.save();
     req.flash('success', 'Successfully updated image!');
     res.redirect(`/images/${image._id}`);
 };
