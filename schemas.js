@@ -5,7 +5,8 @@ module.exports.imageSchema = Joi.object({
         title: Joi.string().required(),
         property: Joi.string().required(),
         description: Joi.string().required(),
-    }).required()
+    }).required(),
+    deleteImages: Joi.array()
 });
 
 module.exports.reviewSchema = Joi.object({

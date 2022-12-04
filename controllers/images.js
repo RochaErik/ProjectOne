@@ -1,4 +1,5 @@
 const Image = require('../models/medias');
+const { cloudinary } = require('../cloudinary');
 
 module.exports.index = async (req, res) => {
     const images = await Image.find({});
@@ -48,6 +49,12 @@ module.exports.updateImage = async (req, res) => {
     const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
     image.images.push(...imgs);
     await image.save();
+    if (req.body.deleteImages) {
+        for (let filename of req.body.deleteImages) {
+            await cloudinary.uploader.destroy(filename);
+        };
+        await image.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } })
+    };
     req.flash('success', 'Successfully updated image!');
     res.redirect(`/images/${image._id}`);
 };

@@ -2,16 +2,21 @@ const mongoose = require('mongoose');
 const Review = require('./review');
 const Schema = mongoose.Schema;
 
+const PictureSchema = new Schema({
+    url: String,
+    filename: String
+});
+
+
+PictureSchema.virtual('thumbnail').get(function () {
+    return this.url.replace('/upload', '/upload/w_200,h_150');
+});
+
 const ImageSchema = new Schema({
     title: String,
     property: String,
     description: String,
-    images: [
-        {
-            url: String,
-            filename: String
-        }
-    ],
+    images: [PictureSchema],
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User'
