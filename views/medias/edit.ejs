@@ -2,51 +2,56 @@
     <div class="row">
         <h1 class="text-center">Edit image</h1>
         <div class="col-md-6 offset-md-3">
-            <form action="/images/<%=image._id%>?_method=PUT" method="POST" class='validated-form' novalidate
-                enctype="multipart/form-data">
-                <div class="mb-3">
-                    <label class="form-label" for="title">Image Title</label>
-                    <input class="form-control" type="text" name="image[title]" id="title" value="<%= image.title %>"
-                        required>
-                    <div class="valid-feedback">
-                        Valid input
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label" for="property">Property of</label>
-                    <input class="form-control" type="text" name="image[property]" id="property"
-                        value="<%= image.property %>" required>
-                    <div class="valid-feedback">
-                        Valid input
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label" for="description">Description</label>
-                    <input class="form-control" type="text" size="30" name="image[description]" id="description"
-                        value="<%= image.description %>" required>
-                    <div class="valid-feedback">
-                        Valid input
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <div class="mb-3">
-                        <label for="image" class="form-label">Add new image(s)</label>
-                        <input class="form-control" type="file" id="image" name="image" multiple>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <%image.images.forEach(function(img, i){%>
-                        <img src="<%=img.thumbnail%>" class="img-thumbnail" alt="">
-                        <div class="form-check-inline">
-                            <input type="checkbox" id="image-<%=i%>" name="deleteImages[]" value="<%=img.filename%>">
+            <div class="card shadow">
+                <div class="card-body">
+                    <form action="/images/<%=image._id%>?_method=PUT" method="POST" class='validated-form' novalidate
+                        enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label class="form-label" for="title">Image Title</label>
+                            <input class="form-control" type="text" name="image[title]" id="title"
+                                value="<%= image.title %>" required>
+                            <div class="valid-feedback">
+                                Valid input
+                            </div>
                         </div>
-                        <label for="image-<%=i%>">Delete</label>
-                        <%})%>
+                        <div class="mb-3">
+                            <label class="form-label" for="property">Property of</label>
+                            <input class="form-control" type="text" name="image[property]" id="property"
+                                value="<%= image.property %>" required>
+                            <div class="valid-feedback">
+                                Valid input
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="description">Description</label>
+                            <input class="form-control" type="text" size="30" name="image[description]" id="description"
+                                value="<%= image.description %>" required>
+                            <div class="valid-feedback">
+                                Valid input
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="mb-3">
+                                <label for="image" class="form-label">Add new image(s)</label>
+                                <input class="form-control" type="file" id="image" name="image" multiple>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <%image.images.forEach(function(img, i){%>
+                                <img src="<%=img.thumbnail%>" class="img-thumbnail" alt="">
+                                <div class="form-check-inline">
+                                    <input type="checkbox" id="image-<%=i%>" name="deleteImages[]"
+                                        value="<%=img.filename%>">
+                                </div>
+                                <label for="image-<%=i%>">Delete</label>
+                                <%})%>
+                        </div>
+                        <div class="mb-3">
+                            <button class="btn btn-success">Edit Image</button>
+                        </div>
+                    </form>
+                    <a href="/images">All images</a>
                 </div>
-                <div class="mb-3">
-                    <button class="btn btn-success">Edit Image</button>
-                </div>
-            </form>
-            <a href="/images">All images</a>
+            </div>
         </div>
     </div>

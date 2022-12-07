@@ -7,10 +7,15 @@
         </div>
         <ul>
             <% for(let image of images){ %>
-                <div class="card mb-3" style="max-width: 540px;">
+                <div class="card mb-3" style="max-width: 1040px;">
                     <div class="row g-0">
                         <div class="col-md-4">
-                            <img src="..." class="img-fluid rounded-start" alt="...">
+                            <%if(image.images.length){%>
+                                <img class="img-fluid" src="<%=image.images[0].url%>">
+                                <% }else{ %>
+                                    <img class="img-fluid"
+                                        src="https://res.cloudinary.com/dzucwvsju/image/upload/v1670125081/ProjectOne/s71tpnqnddkosle6q383.jpg">
+                                    <%}%>
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
