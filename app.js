@@ -64,7 +64,6 @@ passport.deserializeUser(User.deserializeUser()); //como desarmazenar da sessão
 
 //Middleware de ativação do flash em cada request
 app.use((req, res, next) => {
-    console.log(req.query);
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
