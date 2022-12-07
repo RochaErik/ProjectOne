@@ -16,6 +16,7 @@ const User = require('./models/user');
 const userRoutes = require('./routes/Users');
 const reviewsRoutes = require('./routes/Reviews');
 const imagesRoutes = require('./routes/Images')
+const mongoSanitize = require('express-mongo-sanitize');
 
 mongoose.connect('mongodb://localhost:27017/projectOne');
 
@@ -33,6 +34,11 @@ app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(mongoSanitize());
+
 //Ativando o express-session
 const sessionConfig = {
     secret: 'thisshouldbeabettersecret',
@@ -48,7 +54,6 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
-
 //Ativação do middleware do passport
 app.use(passport.initialize());
 app.use(passport.session());
@@ -59,20 +64,17 @@ passport.deserializeUser(User.deserializeUser()); //como desarmazenar da sessão
 
 //Middleware de ativação do flash em cada request
 app.use((req, res, next) => {
+    console.log(req.query);
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
 });
 
-app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride('_method'));
-
 //Ligação do app.js com o ./routes/images.js
 app.use('/', userRoutes);
 app.use('/images', imagesRoutes);
 app.use('/images/:id/review', reviewsRoutes);
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
     res.render('medias/home');
