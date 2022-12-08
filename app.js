@@ -17,6 +17,7 @@ const userRoutes = require('./routes/Users');
 const reviewsRoutes = require('./routes/Reviews');
 const imagesRoutes = require('./routes/Images')
 const mongoSanitize = require('express-mongo-sanitize');
+const helmet = require("helmet");
 
 mongoose.connect('mongodb://localhost:27017/projectOne');
 
@@ -26,10 +27,10 @@ db.once("open", () => {
     console.log("Database connected");
 });
 
-//Ativação do express
+//Express activation
 const app = express();
 
-//Ativação do ejs
+//EJS activation
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -39,13 +40,15 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(mongoSanitize());
 
-//Ativando o express-session
+//Express-session activation
 const sessionConfig = {
-    secret: 'thisshouldbeabettersecret',
+    name: 'pone',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
         HttpOnly: true,
+        // secure: true,
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
@@ -54,15 +57,15 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
-//Ativação do middleware do passport
+//Passport middleware activation
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 
-passport.serializeUser(User.serializeUser()); //como armazenar na sessão
-passport.deserializeUser(User.deserializeUser()); //como desarmazenar da sessão
+passport.serializeUser(User.serializeUser()); //how to store the session
+passport.deserializeUser(User.deserializeUser()); //how to destore the session
 
-//Middleware de ativação do flash em cada request
+//Flash middleware activation
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
@@ -70,7 +73,52 @@ app.use((req, res, next) => {
     next();
 });
 
-//Ligação do app.js com o ./routes/images.js
+////////////////HELMET PERMISSIONS//////////////
+
+const scriptSrcUrls = [
+    "https://stackpath.bootstrapcdn.com/",
+    "https://cdnjs.cloudflare.com/",
+    "https://cdn.jsdelivr.net",
+    `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/`
+];
+const styleSrcUrls = [
+    "https://stackpath.bootstrapcdn.com/",
+    "https://cdn.jsdelivr.net",
+    `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/`
+];
+
+const connectSrcUrls = [
+    `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/`
+];
+
+const fontSrcUrls = [
+    `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/`
+];
+
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: [],
+            connectSrc: ["'self'", ...connectSrcUrls],
+            scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+            styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+            workerSrc: ["'self'", "blob:"],
+            objectSrc: [],
+            imgSrc: [
+                "'self'",
+                "blob:",
+                "data:",
+                `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/`,
+                "https://images.unsplash.com/",
+            ],
+            fontSrc: ["'self'", ...fontSrcUrls],
+        },
+    })
+);
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+//Link to app.js to ./routes/images.js
 app.use('/', userRoutes);
 app.use('/images', imagesRoutes);
 app.use('/images/:id/review', reviewsRoutes);
