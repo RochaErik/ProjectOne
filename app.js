@@ -13,13 +13,15 @@ const ExpressError = require('./utils/expressError');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
-const userRoutes = require('./routes/Users');
-const reviewsRoutes = require('./routes/Reviews');
-const imagesRoutes = require('./routes/Images')
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require("helmet");
+const userRoutes = require('./routes/Users');
+const reviewsRoutes = require('./routes/Reviews');
+const imagesRoutes = require('./routes/Images');
+const MongoStore = require('connect-mongo');
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/projectOne';
 
-mongoose.connect('mongodb://localhost:27017/projectOne');
+mongoose.connect(dbUrl);
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
@@ -40,10 +42,23 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(mongoSanitize());
 
+const secret = process.env.SESSION_SECRET;
+
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    secret,
+    touchAfter: 24 * 60 * 60,
+});
+
+store.on("error", function (e) {
+    console.log('SESSION STORE ERROR!!', e)
+});
+
 //Express-session activation
 const sessionConfig = {
+    store,
     name: 'pone',
-    secret: process.env.SESSION_SECRET,
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
